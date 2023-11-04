@@ -74,7 +74,8 @@ def login(email, password):
 def logout():
     global jwtTokenG
     jwtTokenG=""
-    return {"message":"Logged out with succesfull!","status":"200"}
+    response = {"status":"200","message":"Logged out with succesfull!"}
+    return response
 
 @app.get("/getVehicles")
 async def getVehicles(token: str = Header(None)):
@@ -89,8 +90,8 @@ async def getVehicles(token: str = Header(None)):
             df_limpio_result = df_limpio.collect().to_dicts()
             desviacion_estandar_df_result = desviacion_estandar_df.collect().to_dicts()
             promedio_df_result = promedio_df.collect().to_dicts()
-            
-            return {"vehicles_data": df_limpio_result, "std_data": desviacion_estandar_df_result,"avg_data":promedio_df_result}
+            response = {"status":"200","vehicles_data": df_limpio_result, "std_data": desviacion_estandar_df_result,"avg_data":promedio_df_result}
+            return response
         else:
             return {"message": "Invalid token", "status": "400"}
     except:
