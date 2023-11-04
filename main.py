@@ -63,7 +63,6 @@ def login(email, password):
     global jwtTokenG
     if email == "user@cheil.com" and password == "superadmin":
         # Create a JWT token with a subject claim "admin" and an expiration time of 1 hour
-        import pdb; pdb.set_trace()
         payload = {"email": email, "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)}
         jwtTokenG = jwt.encode(payload, TOKEN_KEY, algorithm=TOKEN_HS256)
         response = {"status":"200","token":jwtTokenG}
@@ -75,9 +74,10 @@ def login(email, password):
 def logout():
     global jwtTokenG
     jwtTokenG=""
-    return {"message":"Logged out with succesfull!","status":"200"}
+    response = {"status":"200","message":"Logged out with succesfull!"}
+    return response
 
-@app.get("/getVehicles")
+@app.get("/GetVehicles")
 async def getVehicles(token: str = Header(None)):
     global jwtTokenG, df_limpio
     try:
@@ -86,13 +86,12 @@ async def getVehicles(token: str = Header(None)):
 
         if token == token_bytes_str:
             # using lazyFrames of polars convert to query and show results
-            import pdb; pdb.set_trace()
             df_limpio,desviacion_estandar_df, promedio_df = process_file()
             df_limpio_result = df_limpio.collect().to_dicts()
             desviacion_estandar_df_result = desviacion_estandar_df.collect().to_dicts()
             promedio_df_result = promedio_df.collect().to_dicts()
-            
-            return {"vehicles_data": df_limpio_result, "std_data": desviacion_estandar_df_result,"avg_data":promedio_df_result}
+            response = {"status":"200","vehicles_data": df_limpio_result, "std_data": desviacion_estandar_df_result,"avg_data":promedio_df_result}
+            return response
         else:
             return {"message": "Invalid token", "status": "400"}
     except:
