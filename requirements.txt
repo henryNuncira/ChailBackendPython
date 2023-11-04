@@ -1,0 +1,4 @@
+pyjwt==2.8.0
+polars==0.19.12
+uvicorn==0.23.2
+fastapi==0.104.0
