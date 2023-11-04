@@ -77,7 +77,7 @@ def logout():
     response = {"status":"200","message":"Logged out with succesfull!"}
     return response
 
-@app.get("/getVehicles")
+@app.get("/GetVehicles")
 async def getVehicles(token: str = Header(None)):
     global jwtTokenG, df_limpio
     try:
