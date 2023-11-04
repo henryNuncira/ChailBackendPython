@@ -63,7 +63,6 @@ def login(email, password):
     global jwtTokenG
     if email == "user@cheil.com" and password == "superadmin":
         # Create a JWT token with a subject claim "admin" and an expiration time of 1 hour
-        import pdb; pdb.set_trace()
         payload = {"email": email, "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)}
         jwtTokenG = jwt.encode(payload, TOKEN_KEY, algorithm=TOKEN_HS256)
         response = {"status":"200","token":jwtTokenG}
@@ -86,7 +85,6 @@ async def getVehicles(token: str = Header(None)):
 
         if token == token_bytes_str:
             # using lazyFrames of polars convert to query and show results
-            import pdb; pdb.set_trace()
             df_limpio,desviacion_estandar_df, promedio_df = process_file()
             df_limpio_result = df_limpio.collect().to_dicts()
             desviacion_estandar_df_result = desviacion_estandar_df.collect().to_dicts()
